@@ -78,6 +78,10 @@
 <div class="w-full h-screen flex justify-center items-center bg-[#F8A1FF]">
     <button class="block h-full relative" on:click={() => !videoEnd && playVideo()}>
         <video class="w-full h-full" src={videoURL} muted autoplay bind:this={videoElem} />
-        
+        {#if videoEnd}
+            <button class="absolute bottom-0 left-0 mb-28 w-full p-2 rounded-md bg-white text-pink-500">
+                Save กาชา
+            </button>
+        {/if}   
     </button>                 
 </div>
