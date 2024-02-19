@@ -28,7 +28,7 @@
             {:else if dashBoardPerson.gacha == Rank.Rare}
                 <p class="ml-auto text-yellow-500">Rare</p>
             {:else if dashBoardPerson.gacha == Rank.SSR}
-                <p class="ml-auto bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">SSR</p>
+                <p class="ml-auto bg-gradient-to-r from-blue-600 via-pink-500 to-indigo-400 inline-block text-transparent bg-clip-text">SSR</p>
             {/if}
         </div>
         {/each}

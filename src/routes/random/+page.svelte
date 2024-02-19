@@ -63,10 +63,6 @@
                     videoURL = await getDownloadURL(ref(storage, 'SR 4.mp4'));
                 }
             }
-            setTimeout(() => {
-                pauseVideo()
-                tapHere = true;
-            }, 1800)
 
             videoElem.onended = () => {
                 videoEnd = true;
@@ -75,13 +71,19 @@
             const blob = await getBlob(ref(storage, videoURL));
             videoBlob = blob;
 
-            const docref = await addDoc(collection(db, "Gachas"), {
+            await addDoc(collection(db, "Gachas"), {
                 name: $name,
                 gacha: rank
             });
-            console.log(docref)
         }
     });
+
+    $: if (videoURL != "") {
+        setTimeout(() => {
+            pauseVideo()
+            tapHere = true;
+        }, 1800)
+    }
 
     function playVideo() {
         videoElem.play();
