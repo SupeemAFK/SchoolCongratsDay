@@ -1,13 +1,25 @@
 <script lang="ts">
+    import { collection, doc, onSnapshot } from "firebase/firestore";
     import type { DashBoardPerson } from "../interfaces/dashBoardPerson";
     import { Rank } from "../uitls/RandomCard";
+    import { db } from "../firebase/firebase";
+    import { onMount } from "svelte";
 
-    let dashBoardPeople: DashBoardPerson[] = [{ id: "1", name: "John", gacha: Rank.SSR }, { id: "2", name: "GAy", gacha: Rank.Common }]
+    let dashBoardPeople: DashBoardPerson[] = []
+    onMount(() => {
+        onSnapshot(collection(db, "Gachas"), (collection) => {
+            const data: DashBoardPerson[] = collection.docs.map(doc => ({ id: doc.id, name: doc.data().name, gacha: doc.data().gacha }));
+            const SSRPeople = data.filter(data => data.gacha == Rank.SSR);
+            const RarePeople = data.filter(data => data.gacha == Rank.Rare);
+            const CommonPeople = data.filter(data => data.gacha == Rank.Common);
+            dashBoardPeople = [...SSRPeople, ...RarePeople, ...CommonPeople];
+        })
+    })
 </script>
 
 <div class="border-[0.1rem] border-[#e6e6e6] p-3 rounded-md">
     <h1 class="text-center text-2xl font-semibold">บอร์ดประจานพวกเกลือ 🧂🧂🧂</h1>
-    <div class="mt-2 py-2 px-10">
+    <div class="mt-2 h-96 overflow-y-auto py-2 px-10 overflow">
         {#each dashBoardPeople as dashBoardPerson}
         <div class="flex justify-center">
             <p>{dashBoardPerson.name}</p>

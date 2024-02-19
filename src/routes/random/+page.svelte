@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { redirect } from '@sveltejs/kit';
     import { name } from '../../state/name';
 	import { onMount } from 'svelte';
     import { RandomPerson, RandomRank, RandomRareType, RandomSSRType, Rank, Person } from '../../uitls/RandomCard';
-    import { storage } from '../../firebase/firebase';
+    import { storage, db } from '../../firebase/firebase';
+    import { addDoc, collection } from 'firebase/firestore';
     import { getDownloadURL, ref, getBlob } from "firebase/storage";
     let videoURL = "";
     let videoBlob = new Blob();
@@ -12,68 +12,75 @@
     let tapHere = false;
 
 	onMount(async () => {
-        /*if ($name == "") {
+        if ($name == "") {
             window.location.href = '/'      
-        }*/
-
-        const rank = RandomRank();
-        if (rank == Rank.Common) {
-            const person = RandomPerson();
-            if (person == Person.Peem) {
-                videoURL = await getDownloadURL(ref(storage, 'common Peem.mp4'));
-            }
-            else if (person == Person.Kittiphotot) {
-                videoURL = await getDownloadURL(ref(storage, 'common Kittiphot.mp4'));
-            }
         }
-        else if (rank == Rank.Rare) {
-            const person = RandomPerson();
-            const type = RandomRareType();
-            if (person == Person.Peem) {
-                if (type == 1) {
-                    videoURL = await getDownloadURL(ref(storage, 'Rare Peem 1.mp4'));
+        else {
+            const rank = RandomRank();
+            if (rank == Rank.Common) {
+                const person = RandomPerson();
+                if (person == Person.Peem) {
+                    videoURL = await getDownloadURL(ref(storage, 'common Peem.mp4'));
+                }
+                else if (person == Person.Kittiphotot) {
+                    videoURL = await getDownloadURL(ref(storage, 'common Kittiphot.mp4'));
+                }
+            }
+            else if (rank == Rank.Rare) {
+                const person = RandomPerson();
+                const type = RandomRareType();
+                if (person == Person.Peem) {
+                    if (type == 1) {
+                        videoURL = await getDownloadURL(ref(storage, 'Rare Peem 1.mp4'));
 
+                    }
+                    else if (type == 2) {
+                        videoURL = await getDownloadURL(ref(storage, 'Rare Peem 2.mp4'));
+
+                    }
+                }
+                else if (person == Person.Kittiphotot) {
+                    if (type == 1) {
+                        videoURL = await getDownloadURL(ref(storage, 'Rare Kittiphot 1.mp4'));
+                    }
+                    else if (type == 2) {
+                        videoURL = await getDownloadURL(ref(storage, 'Rare Kittiphot 2.mp4'));
+                    }
+                }
+            }   
+            else if (rank == Rank.SSR) {
+                const type = RandomSSRType();
+                if (type == 1) {
+                    videoURL = await getDownloadURL(ref(storage, 'SR 1.mp4'));
                 }
                 else if (type == 2) {
-                    videoURL = await getDownloadURL(ref(storage, 'Rare Peem 2.mp4'));
+                    videoURL = await getDownloadURL(ref(storage, 'SR 2.mp4'));
+                }
+                else if (type == 3) {
+                    videoURL = await getDownloadURL(ref(storage, 'SR 3.mp4'));
+                }
+                else if (type == 4) {
+                    videoURL = await getDownloadURL(ref(storage, 'SR 4.mp4'));
+                }
+            }
+            setTimeout(() => {
+                pauseVideo()
+                tapHere = true;
+            }, 1800)
 
-                }
+            videoElem.onended = () => {
+                videoEnd = true;
             }
-            else if (person == Person.Kittiphotot) {
-                if (type == 1) {
-                    videoURL = await getDownloadURL(ref(storage, 'Rare Kittiphot 1.mp4'));
-                }
-                else if (type == 2) {
-                    videoURL = await getDownloadURL(ref(storage, 'Rare Kittiphot 2.mp4'));
-                }
-            }
-        }   
-        else if (rank == Rank.SSR) {
-            const type = RandomSSRType();
-            if (type == 1) {
-                videoURL = await getDownloadURL(ref(storage, 'SR 1.mp4'));
-            }
-            else if (type == 2) {
-                videoURL = await getDownloadURL(ref(storage, 'SR 2.mp4'));
-            }
-            else if (type == 3) {
-                videoURL = await getDownloadURL(ref(storage, 'SR 3.mp4'));
-            }
-            else if (type == 4) {
-                videoURL = await getDownloadURL(ref(storage, 'SR 4.mp4'));
-            }
+
+            const blob = await getBlob(ref(storage, videoURL));
+            videoBlob = blob;
+
+            const docref = await addDoc(collection(db, "Gachas"), {
+                name: $name,
+                gacha: rank
+            });
+            console.log(docref)
         }
-        setTimeout(() => {
-            pauseVideo()
-            tapHere = true;
-        }, 1800)
-
-        videoElem.onended = () => {
-            videoEnd = true;
-        }
-
-        const blob = await getBlob(ref(storage, videoURL));
-        videoBlob = blob;
     });
 
     function playVideo() {
