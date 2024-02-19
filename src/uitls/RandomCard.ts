@@ -16,12 +16,12 @@ function getRandomInt(min: number, max: number) {
 export function RandomRank() {
     let rank = Rank.Common;
 
-    const randomSSR = getRandomInt(1, 100) //1/100;
+    const randomSSR = getRandomInt(5, 100) //1/100;
     if (randomSSR == 1) {
         rank = Rank.SSR
     }
     else {
-        const randomRare = getRandomInt(1, 10) //1/10;
+        const randomRare = getRandomInt(5, 10) //1/10;
         if (randomRare == 1) {
             rank = Rank.Rare
         }
