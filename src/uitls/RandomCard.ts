@@ -17,12 +17,12 @@ export function RandomRank() {
     let rank = Rank.Common;
 
     const randomSSR = getRandomInt(5, 50) //1/100;
-    if (randomSSR == 1) {
+    if (randomSSR == 5) {
         rank = Rank.SSR
     }
     else {
         const randomRare = getRandomInt(3, 10) //1/10;
-        if (randomRare == 1) {
+        if (randomRare == 3) {
             rank = Rank.Rare
         }
     }
