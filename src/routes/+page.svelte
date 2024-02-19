@@ -36,8 +36,8 @@
                 </div>
                 <div class="ml-3">
                     <p class="text-slate-500">89%</p>
-                    <p class="text-yellow-500">10%</p>
-                    <p class="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">1%</p>
+                    <p class="text-yellow-500">15%</p>
+                    <p class="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">5%</p>
                 </div>
             </div>
         </div>
