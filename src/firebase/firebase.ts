@@ -1,3 +1,6 @@
+let process: any;
+const p = process?.env ? process.env : import.meta.env;
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
@@ -7,13 +10,13 @@ import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBfzUpMoCvkbabcEuOefKyplK8LvJs9xDw",
-  authDomain: "patchim-5946c.firebaseapp.com",
-  projectId: "patchim-5946c",
-  storageBucket: "patchim-5946c.appspot.com",
-  messagingSenderId: "987133083463",
-  appId: "1:987133083463:web:5557e23f2f416029091662",
-  measurementId: "G-CWEECL3EEV"
+  apiKey: p.VITE_FIREBASE_APIKEY,
+  authDomain: p.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: p.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: p.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: p.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: p.VITE_FIREBASE_APP_ID,
+  measurementId: p.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
