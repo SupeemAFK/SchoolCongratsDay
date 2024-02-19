@@ -1,15 +1,22 @@
 <script lang="ts">
+    import { redirect } from '@sveltejs/kit';
+    import { name } from '../../state/name';
 	import { onMount } from 'svelte';
     import { RandomPerson, RandomRank, RandomRareType, RandomSSRType, Rank, Person } from '../../uitls/RandomCard';
     import { storage } from '../../firebase/firebase';
-    import { getDownloadURL, ref } from "firebase/storage";
+    import { getDownloadURL, ref, getBlob } from "firebase/storage";
     let videoURL = "";
+    let videoBlob = new Blob();
     let videoElem: HTMLVideoElement;
     let videoEnd = false;
+    let tapHere = false;
 
 	onMount(async () => {
-        const rank = RandomRank();
+        /*if ($name == "") {
+            window.location.href = '/'      
+        }*/
 
+        const rank = RandomRank();
         if (rank == Rank.Common) {
             const person = RandomPerson();
             if (person == Person.Peem) {
@@ -56,15 +63,18 @@
                 videoURL = await getDownloadURL(ref(storage, 'SR 4.mp4'));
             }
         }
-
         setTimeout(() => {
             pauseVideo()
-        }, 1900)
+            tapHere = true;
+        }, 1800)
 
         videoElem.onended = () => {
             videoEnd = true;
         }
-	});
+
+        const blob = await getBlob(ref(storage, videoURL));
+        videoBlob = blob;
+    });
 
     function playVideo() {
         videoElem.play();
@@ -73,15 +83,34 @@
     function pauseVideo() {
         videoElem.pause();
     }
+
+    function saveBlob(blob: Blob, fileName: string) {
+        const a = document.createElement("a");
+        document.body.appendChild(a);
+
+        const url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
 </script>
 
 <div class="w-full h-screen flex justify-center items-center bg-[#F8A1FF]">
-    <button class="block h-full relative" on:click={() => !videoEnd && playVideo()}>
+    <button class="block h-full relative" 
+        on:click={() => {
+            !videoEnd && playVideo();
+            tapHere = false;
+        }}
+    >
         <video class="w-full h-full" src={videoURL} muted autoplay bind:this={videoElem} />
         {#if videoEnd}
-            <button class="absolute bottom-0 left-0 mb-28 w-full p-2 rounded-md bg-white text-pink-500">
-                Save กาชา
+            <button on:click={() => saveBlob(videoBlob, "GachaCongratsGift")} class="absolute bottom-0 left-0 mb-28 w-full p-2 rounded-md font-semibold text-3xl bg-white text-pink-500 hover:bg-pink-500 hover:text-white transition-all duration-200">
+                แตะเพื่อ Save กาชา 🎉🎉🎉
             </button>
+        {/if}  
+        {#if tapHere}
+            <p class="absolute bottom-0 left-0 mb-40 w-full text-white font-semibold text-3xl">แตะเพื่อเปิด</p>
         {/if}   
     </button>                 
 </div>
