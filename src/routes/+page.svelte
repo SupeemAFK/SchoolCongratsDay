@@ -35,9 +35,9 @@
                     <p class="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">SSR</p>
                 </div>
                 <div class="ml-3">
-                    <p class="text-slate-500">89%</p>
-                    <p class="text-yellow-500">15%</p>
-                    <p class="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">5%</p>
+                    <p class="text-slate-500">60%</p>
+                    <p class="text-yellow-500">30%</p>
+                    <p class="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">10%</p>
                 </div>
             </div>
         </div>
