@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { collection, doc, onSnapshot } from "firebase/firestore";
+    import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
     import type { DashBoardPerson } from "../interfaces/dashBoardPerson";
     import { Rank } from "../uitls/RandomCard";
     import { db } from "../firebase/firebase";
@@ -7,7 +7,8 @@
 
     let dashBoardPeople: DashBoardPerson[] = []
     onMount(() => {
-        onSnapshot(collection(db, "Gachas"), (collection) => {
+        const q = query(collection(db, "Gachas"), orderBy('created', "desc"))
+        onSnapshot(q, (collection) => {
             const data: DashBoardPerson[] = collection.docs.map(doc => ({ id: doc.id, name: doc.data().name, gacha: doc.data().gacha }));
             const SSRPeople = data.filter(data => data.gacha == Rank.SSR);
             const RarePeople = data.filter(data => data.gacha == Rank.Rare);

@@ -65,12 +65,9 @@
             }
             await addDoc(collection(db, "Gachas"), {
                 name: $name,
-                gacha: rank
+                gacha: rank,
+                created: new Date() 
             });
-
-            videoElem.onended = () => {
-                videoEnd = true;
-            }
 
             const blob = await getBlob(ref(storage, videoURL));
             videoBlob = blob;
@@ -81,7 +78,13 @@
         setTimeout(() => {
             pauseVideo()
             tapHere = true;
-        }, 1800)
+        }, 1900)
+    }
+
+    $: if (videoElem) {
+        videoElem.onended = () => {
+            videoEnd = true;
+        }
     }
 
     function playVideo() {
