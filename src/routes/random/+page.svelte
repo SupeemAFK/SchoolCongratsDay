@@ -10,6 +10,7 @@
     let videoElem: HTMLVideoElement;
     let videoEnd = false;
     let tapHere = false;
+    let pauseVid = true;
 
 	onMount(async () => {
         if ($name == "") {
@@ -89,9 +90,10 @@
     }
 
     function onTimeUpdate() {
-        if (videoElem?.currentTime >= 1.7 && !tapHere) {
+        if (videoElem?.currentTime >= 1.7 && pauseVid) {
             pauseVideo()
             tapHere = true;
+            pauseVid = false;
         }
     }
 
