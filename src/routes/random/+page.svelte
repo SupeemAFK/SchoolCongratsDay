@@ -63,6 +63,10 @@
                     videoURL = await getDownloadURL(ref(storage, 'SR 4.mp4'));
                 }
             }
+            await addDoc(collection(db, "Gachas"), {
+                name: $name,
+                gacha: rank
+            });
 
             videoElem.onended = () => {
                 videoEnd = true;
@@ -70,11 +74,6 @@
 
             const blob = await getBlob(ref(storage, videoURL));
             videoBlob = blob;
-
-            await addDoc(collection(db, "Gachas"), {
-                name: $name,
-                gacha: rank
-            });
         }
     });
 
