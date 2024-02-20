@@ -113,7 +113,7 @@
                 tapHere = false;
             }}
         >
-            <video class="w-full h-full" src={videoURL} muted autoplay bind:this={videoElem} />
+            <video class="w-full h-full" src={videoURL} muted autoplay playsinline bind:this={videoElem} />
             {#if videoEnd}
                 <button on:click={() => saveBlob(videoBlob, "GachaCongratsGift")} class="absolute bottom-0 left-0 mb-28 w-full p-2 rounded-md font-semibold text-3xl bg-white text-pink-500 hover:bg-pink-500 hover:text-white transition-all duration-200">
                     แตะเพื่อ Save กาชา 🎉🎉🎉
