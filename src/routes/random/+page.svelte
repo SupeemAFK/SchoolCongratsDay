@@ -89,7 +89,7 @@
     }
 
     function onTimeUpdate() {
-        if (videoElem?.currentTime >= 1.7) {
+        if (videoElem?.currentTime >= 1.7 && !tapHere) {
             pauseVideo()
             tapHere = true;
         }
